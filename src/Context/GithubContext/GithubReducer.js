@@ -1,7 +1,8 @@
-import { GET_USERS, GET_USER_REPO,SET_LOADING, RESET_LOADING } from "../types";
+import { GET_USERS, GET_USER_REPO, SET_LOADING, RESET_LOADING } from "../types";
 
 const reducer = (state, action) => {
-  switch (action.key) {
+
+  switch (action.type) {
     case SET_LOADING:
       return {
         ...state,
@@ -13,11 +14,12 @@ const reducer = (state, action) => {
         loading: false,
       };
     case GET_USERS:
-      const data = action.payload;
+      const { users } = action.payload;
+     
       return {
         ...state,
         loading: false,
-        users: data,
+        users: users,
       };
     case GET_USER_REPO:
       const { repos, user } = action.payload;

@@ -1,6 +1,7 @@
 import { Container, Grid, makeStyles } from "@material-ui/core";
 
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import GithubContext from "../../Context/GithubContext/GithubContext";
 
 import Spinner from "../Layout/Spinner";
 import Search from "./Search";
@@ -13,28 +14,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Users = (props) => {
+const Users = () => {
+  const context = useContext(GithubContext);
   const classes = useStyles();
   useEffect(() => {
-    props.getAllusers();
+    context.getAllusers();
     //eslint-disable-next-line
   }, []);
 
-
-
   return (
     <div>
-      <Search searchUsers={props.searchUsers} />
-      {props.loading ? (
+      <Search searchUsers={context.searchUsers} />
+      {context.loading ? (
         <Spinner />
       ) : (
         <Container className={classes.cardGrid}>
           <Grid container spacing={4}>
-            {props.users.map((user) => (
+            {context.users.map((element) => (
               <UserItem
-                key={user.id}
-                login={user.login}
-                avatar_url={user.avatar_url}
+                key={element.id}
+                login={element.login}
+                avatar_url={element.avatar_url}
               />
             ))}
           </Grid>

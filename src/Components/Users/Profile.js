@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect ,useContext} from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 import {
@@ -24,6 +24,7 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import Repos from "./Repos";
 import Spinner from "../Layout/Spinner";
 import { GitHub } from "@material-ui/icons";
+import GithubContext from "../../Context/GithubContext/GithubContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,19 +58,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Profile = (props) => {
+  const context = useContext(GithubContext)
   const classes = useStyles();
   let { userId } = props.match.params;
-  console.log(userId);
+  
   useEffect(() => {
-    props.getUserAndRepo(userId);
+    context.getUserAndRepo(userId);
     //eslint-disable-next-line
   }, []);
 
-  const { user } = props;
+  const { user } = context;
 
   return (
     <>
-      {props.loading ? (
+      {context.loading ? (
         <Spinner />
       ) : (
         <div>
@@ -210,7 +212,7 @@ const Profile = (props) => {
                   />
                   {user.public_repos} {"   public repos"}
                 </Typography>
-                <Repos repos={props.repos} />
+                <Repos repos={context.repos} />
               </Grid>
               <Grid item xs={false} sm={1}></Grid>
             </Grid>
