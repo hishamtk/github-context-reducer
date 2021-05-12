@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Container, CssBaseline, makeStyles } from "@material-ui/core";
 
@@ -11,6 +11,7 @@ import Profile from "./Components/Users/Profile";
 import Users from "./Components/Users/Users";
 
 import GithubState from "./Context/GithubContext/GithubState";
+import AlertState from "./Context/AlertContext/AlertState";
 
 const useStyles = makeStyles((theme) => ({
   hero: {
@@ -20,15 +21,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const App = () => {
-  const [alert, setAlert] = useState(null);
-
-  const handleAlert = (msg, type) => {
-    setAlert({ msg, type });
-    setTimeout(() => {
-      setAlert(null);
-    }, 5000);
-  };
-
   const classes = useStyles();
   return (
     <Fragment>
@@ -36,25 +28,27 @@ const App = () => {
 
       <Navbar />
       <GithubState>
-        <Container className={classes.hero} maxWidth="lg">
-          <AlertItem alert={alert} />
-          <Switch>
-            <Route exact path="/github">
-              <Users alert={alert} handleAlert={handleAlert} />
-            </Route>
-            <Route exact path="/github/about">
-              <About />
-            </Route>
-            <Route exact path="/github/contact">
-              <Contact />
-            </Route>
-            <Route
-              exact
-              path="/github/user/:userId"
-              render={(props) => <Profile {...props} />}
-            />
-          </Switch>
-        </Container>
+        <AlertState>
+          <Container className={classes.hero} maxWidth="lg">
+            <AlertItem />
+            <Switch>
+              <Route exact path="/github">
+                <Users />
+              </Route>
+              <Route exact path="/github/about">
+                <About />
+              </Route>
+              <Route exact path="/github/contact">
+                <Contact />
+              </Route>
+              <Route
+                exact
+                path="/github/user/:userId"
+                render={(props) => <Profile {...props} />}
+              />
+            </Switch>
+          </Container>
+        </AlertState>
       </GithubState>
 
       <Footer />

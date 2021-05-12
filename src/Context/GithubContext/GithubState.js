@@ -43,9 +43,7 @@ const GithubState = (props) => {
 
   const searchUsers = async (text) => {
     try {
-      //   if (text === "") {
-      //     return handleAlert("Search should not be empty", "error");
-      //   }
+   
 
       dispatch({ type: SET_LOADING });
       let { data } = await axios.get(

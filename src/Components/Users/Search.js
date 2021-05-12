@@ -1,5 +1,7 @@
 import { Button, Container, makeStyles, TextField } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import Alertcontext from "../../Context/AlertContext/AlertContext";
+import GithubContext from "../../Context/GithubContext/GithubContext";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -11,7 +13,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Search = ({ searchUsers }) => {
+const Search = () => {
+  const context = useContext(GithubContext);
+  const alertContext = useContext(Alertcontext);
+
   const classes = useStyles();
   const [formData, setFormData] = useState({
     text: "",
@@ -25,7 +30,11 @@ const Search = ({ searchUsers }) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    searchUsers(formData.text);
+
+    if (formData.text === "") {
+      alertContext.handleAlert("Search should not be empty", "error");
+    }
+    context.searchUsers(formData.text);
   };
 
   return (

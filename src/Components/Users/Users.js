@@ -1,6 +1,7 @@
 import { Container, Grid, makeStyles } from "@material-ui/core";
 
 import { useEffect, useContext } from "react";
+
 import GithubContext from "../../Context/GithubContext/GithubContext";
 
 import Spinner from "../Layout/Spinner";
@@ -16,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Users = () => {
   const context = useContext(GithubContext);
+
   const classes = useStyles();
   useEffect(() => {
     context.getAllusers();
@@ -24,7 +26,7 @@ const Users = () => {
 
   return (
     <div>
-      <Search searchUsers={context.searchUsers} />
+      <Search />
       {context.loading ? (
         <Spinner />
       ) : (
