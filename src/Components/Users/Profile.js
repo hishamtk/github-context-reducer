@@ -247,7 +247,7 @@ const Profile = (props) => {
                   />
                   {user.public_repos} {"   public repos"}
                 </Typography>
-                <Repos repos={context.repos} />
+                <Repos />
               </Grid>
               <Grid item xs={false} sm={1}></Grid>
             </Grid>

@@ -4,3 +4,4 @@ export const GET_USERS = "GET_USERS";
 export const GET_USER_REPO = "GET_USER_REPO";
 export const ALERT = "ALERT";
 export const RESET_ALERT = "RESET_ALERT";
+export const SET_PAGES = "SET_PAGES";

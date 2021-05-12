@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   Card,
   CardContent,
@@ -9,6 +9,7 @@ import {
 
 import FolderIcon from "@material-ui/icons/Folder";
 import PaginationDiv from "../Layout/PaginationDiv";
+import GithubContext from "../../Context/GithubContext/GithubContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,7 +47,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Repos = ({ repos }) => {
+const Repos = () => {
+
+  const gitContext = useContext(GithubContext)
 
   
   const [pageRepos, setPageRepos] = useState([]);
@@ -55,18 +58,19 @@ const Repos = ({ repos }) => {
   const perPage = 5;
 
   useEffect(() => {
-    calcPages(repos, perPage);
-  }, [repos]);
+    calcPages(gitContext.repos, perPage);
+  }, [gitContext.repos]);
 
   useEffect(() => {
     const showRepo = () => {
       if (currPage < 1 || currPage > pages) {
         return;
       }
-      setPageRepos(repos.slice((currPage - 1) * perPage, currPage * perPage));
+   
+      setPageRepos(gitContext.repos.slice((currPage - 1) * perPage, currPage * perPage));
     };
     showRepo(currPage);
-  }, [currPage, pages, repos]);
+  }, [currPage, pages, gitContext.repos]);
 
   const calcPages = (arr, perPage) => {
     setPages(Math.ceil(arr.length / perPage));
@@ -111,7 +115,7 @@ const Repos = ({ repos }) => {
           pages={pages}
           currPage={currPage}
           setCurrPage={setCurrPage}
-          total={repos.length}
+          total={gitContext.repos.length}
         />
       </Grid>
     </>
