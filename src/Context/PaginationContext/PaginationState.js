@@ -1,10 +1,9 @@
 import { useReducer } from "react";
-import {SET_PAGES} from "../types"
+import {SET_PAGES,SET_PAGE_REPO,SET_CURR_PAGE} from "../types"
 import PaginationContext from "./PaginationContext";
 import PaginationReducer from "./PaginationReducer";
 
 const PaginationState = (props) => {
-  const perPage = 5;
   const initialState = { pageRepos: [], currPage: 1, pages: 0 };
   const [state, dispatch] = useReducer(PaginationReducer, initialState);
 
@@ -13,10 +12,17 @@ const PaginationState = (props) => {
     dispatch({type:SET_PAGES,payload:{pages:pages}})
   };
 
+  const changePageRepo = (data) =>{
+      dispatch({type:SET_PAGE_REPO,payload:{pageRepos:data}})
+  }
+
+  const changeCurrPage = (data) =>{
+      dispatch({type:SET_CURR_PAGE,payload:{currPage:data}})
+  }
 
 
   return (
-    <PaginationContext.Provider value={{ ...state ,calcPages ,}}>
+    <PaginationContext.Provider value={{ ...state ,calcPages , changeCurrPage,changePageRepo}}>
       {props.children}
     </PaginationContext.Provider>
   );

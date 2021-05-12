@@ -27,6 +27,7 @@ import Repos from "./Repos";
 import Spinner from "../Layout/Spinner";
 import { GitHub } from "@material-ui/icons";
 import GithubContext from "../../Context/GithubContext/GithubContext";
+import PaginationState from "../../Context/PaginationContext/PaginationState";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -247,7 +248,10 @@ const Profile = (props) => {
                   />
                   {user.public_repos} {"   public repos"}
                 </Typography>
-                <Repos />
+                <PaginationState>
+                  {" "}
+                  <Repos />
+                </PaginationState>
               </Grid>
               <Grid item xs={false} sm={1}></Grid>
             </Grid>

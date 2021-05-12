@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import {
   Card,
   CardContent,
@@ -10,6 +10,7 @@ import {
 import FolderIcon from "@material-ui/icons/Folder";
 import PaginationDiv from "../Layout/PaginationDiv";
 import GithubContext from "../../Context/GithubContext/GithubContext";
+import PaginationContext from "../../Context/PaginationContext/PaginationContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,33 +49,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Repos = () => {
+  const gitContext = useContext(GithubContext);
+  const pageContext = useContext(PaginationContext);
 
-  const gitContext = useContext(GithubContext)
-
-  
-  const [pageRepos, setPageRepos] = useState([]);
-  const [currPage, setCurrPage] = useState(1);
-  const [pages, setPages] = useState(0);
   const perPage = 5;
 
   useEffect(() => {
-    calcPages(gitContext.repos, perPage);
-  }, [gitContext.repos]);
+    pageContext.calcPages(gitContext.repos, perPage);
+  }, [gitContext.repos, pageContext]);
 
   useEffect(() => {
     const showRepo = () => {
-      if (currPage < 1 || currPage > pages) {
+      if (
+        pageContext.currPage < 1 ||
+        pageContext.currPage > pageContext.pages
+      ) {
         return;
       }
-   
-      setPageRepos(gitContext.repos.slice((currPage - 1) * perPage, currPage * perPage));
-    };
-    showRepo(currPage);
-  }, [currPage, pages, gitContext.repos]);
+      let pageRepo = gitContext.repos.slice(
+        (pageContext.currPage - 1) * perPage,
+        pageContext.currPage * perPage
+      );
+      pageContext.changePageRepo(pageRepo);
 
-  const calcPages = (arr, perPage) => {
-    setPages(Math.ceil(arr.length / perPage));
-  };
+    };
+    showRepo(pageContext.currPage);
+  }, [pageContext.currPage, pageContext.pages, gitContext.repos, pageContext]);
+
 
   const classes = useStyles();
   return (
@@ -86,7 +87,7 @@ const Repos = () => {
         justify="center"
         alignItems="center"
       >
-        {pageRepos.map((repo) => {
+        {pageContext.pageRepos.map((repo) => {
           return (
             <Grid key={repo.id} item xs={12} className={classes.card}>
               <a
@@ -111,12 +112,7 @@ const Repos = () => {
             </Grid>
           );
         })}
-        <PaginationDiv
-          pages={pages}
-          currPage={currPage}
-          setCurrPage={setCurrPage}
-          total={gitContext.repos.length}
-        />
+        <PaginationDiv />
       </Grid>
     </>
   );

@@ -1,11 +1,22 @@
 import Pagination from "@material-ui/lab/Pagination";
+import { useContext } from "react";
 
-const PaginationDiv = ({ pages, currPage, setCurrPage, total }) => {
+import PaginationContext from "../../Context/PaginationContext/PaginationContext";
+
+const PaginationDiv = () => {
+  const pageContext = useContext(PaginationContext);
+
   const handleChange = (event, value) => {
-    setCurrPage(value);
+    pageContext.changeCurrPage(value);
   };
 
-  return <Pagination count={pages} page={currPage} onChange={handleChange} />;
+  return (
+    <Pagination
+      count={pageContext.pages}
+      page={pageContext.currPage}
+      onChange={handleChange}
+    />
+  );
 };
 
 export default PaginationDiv;
