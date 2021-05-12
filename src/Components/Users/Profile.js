@@ -1,4 +1,4 @@
-import React, { useEffect ,useContext} from "react";
+import React, { useEffect, useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 import {
@@ -20,6 +20,8 @@ import MailIcon from "@material-ui/icons/Mail";
 import GradeIcon from "@material-ui/icons/Grade";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import BusinessIcon from "@material-ui/icons/Business";
 
 import Repos from "./Repos";
 import Spinner from "../Layout/Spinner";
@@ -58,10 +60,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Profile = (props) => {
-  const context = useContext(GithubContext)
+  const context = useContext(GithubContext);
   const classes = useStyles();
   let { userId } = props.match.params;
-  
+
   useEffect(() => {
     context.getUserAndRepo(userId);
     //eslint-disable-next-line
@@ -112,30 +114,59 @@ const Profile = (props) => {
                     >
                       {user.name}
                     </Typography>
-                    <Typography
-                      align="start"
-                      variant="subtitle1"
-                      color="secondary"
-                    >
-                      <ContactMailIcon className={classes.iconProfile} />
-
-                      {user.bio}
-                    </Typography>
-                    <Typography
-                      align="start"
-                      variant="subtitle1"
-                      color="secondary"
-                    >
-                      <BookIcon className={classes.iconProfile} />
-
-                      <a
-                        href={user.blog}
-                        className={classes.link}
-                        rel="noreferer"
+                    {user.bio && (
+                      <Typography
+                        align="start"
+                        variant="subtitle1"
+                        color="secondary"
                       >
-                        {user.blog}
-                      </a>
-                    </Typography>
+                        <ContactMailIcon className={classes.iconProfile} />
+
+                        {user.bio}
+                      </Typography>
+                    )}
+
+                    {user.company && (
+                      <Typography
+                        align="start"
+                        variant="subtitle1"
+                        color="secondary"
+                      >
+                        <BusinessIcon className={classes.iconProfile} />
+
+                        {user.company}
+                      </Typography>
+                    )}
+                    {user.location && (
+                      <Typography
+                        align="start"
+                        variant="subtitle1"
+                        color="secondary"
+                      >
+                        <LocationOnIcon className={classes.iconProfile} />
+
+                        {user.location}
+                      </Typography>
+                    )}
+
+                    {user.blog && (
+                      <Typography
+                        align="start"
+                        variant="subtitle1"
+                        color="secondary"
+                      >
+                        <BookIcon className={classes.iconProfile} />
+
+                        <a
+                          href={user.blog}
+                          className={classes.link}
+                          rel="noreferer"
+                        >
+                          {user.blog}
+                        </a>
+                      </Typography>
+                    )}
+
                     <Typography
                       align="start"
                       variant="subtitle1"
@@ -189,6 +220,10 @@ const Profile = (props) => {
                     <Typography align="justify" variant="h6" color="secondary">
                       <GradeIcon className={classes.iconFollow} />
                       Following :{user.following}
+                    </Typography>
+                    <Typography align="justify" variant="h6" color="secondary">
+                      <GradeIcon className={classes.iconFollow} />
+                      Public Gists :{user.public_gists}
                     </Typography>
                   </CardContent>
                 </Card>
